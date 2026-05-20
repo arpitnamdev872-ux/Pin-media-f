@@ -54,7 +54,7 @@ function Services() {
 
     <section
       id="services"
-      className="relative w-full bg-slate-50 text-slate-900 pt-24 pb-16 overflow-hidden"
+      className="relative w-full text-white pt-24 pb-16 overflow-hidden"
     >
 
       {/* BACKGROUND GLOW */}
@@ -71,31 +71,20 @@ function Services() {
 
         <div className="text-center mb-16">
 
-          <h4 className="text-teal-600 text-sm font-black tracking-[0.4em] uppercase mb-6">
-
+          <h4 className="text-[--brand-1] text-sm font-black tracking-[0.4em] uppercase mb-6" style={{color:'var(--brand-1)'}}>
             Our Services
-
           </h4>
 
-          <h1 className="text-5xl md:text-7xl font-black leading-tight mb-8 tracking-tighter text-slate-900">
-
+          <h1 className="text-3xl sm:text-4xl md:text-6xl font-black leading-tight mb-8 tracking-tighter">
             Premium Digital Solutions
             <br />
-
-            <span className="bg-gradient-to-r from-teal-600 to-blue-600 bg-clip-text text-transparent">
-
+            <span style={{ background: 'linear-gradient(90deg,var(--accent-start),var(--accent-end))', WebkitBackgroundClip: 'text', color: 'transparent' }}>
               For Modern Brands
-
             </span>
-
           </h1>
 
-          <p className="text-slate-500 text-xl max-w-2xl mx-auto leading-relaxed">
-
-            We help businesses, creators and startups build
-            strong digital identity with creative branding,
-            social media growth and modern marketing solutions.
-
+          <p className="text-slate-300 text-lg max-w-2xl mx-auto leading-relaxed font-medium">
+            We help businesses, creators and startups build strong digital identity with creative branding, social media growth and modern marketing solutions.
           </p>
 
         </div>
@@ -109,21 +98,8 @@ function Services() {
 
               <div
                 key={index}
-                className="
-                  group
-                  relative
-                  bg-white
-                  border border-slate-100
-                  rounded-[48px]
-                  p-12
-                  overflow-hidden
-                  hover:-translate-y-4
-                  hover:border-teal-100
-                  duration-500
-                  delay-${index * 100 + 200}
-                  shadow-[0_10px_40px_-15px_rgba(0,0,0,0.05)]
-                  hover:shadow-[0_30px_70px_-15px_rgba(13,148,136,0.25)]
-                "
+                className="group relative glass-panel rounded-[24px] p-6 overflow-hidden hover:-translate-y-2 duration-500 shadow-[0_10px_40px_-15px_rgba(0,0,0,0.25)]"
+                style={{ transitionDelay: `${index * 100}ms` }}
               >
 
                 {/* HOVER GLOW */}
@@ -132,64 +108,21 @@ function Services() {
 
                 {/* ICON */}
 
-                <div
-                  className="
-                    relative
-                    z-10
-                    w-20 h-20
-                    rounded-2xl
-                    bg-gradient-to-r
-                    from-teal-600
-                    to-blue-500
-                    flex items-center justify-center
-                    text-3xl text-white // Increased icon size for better visibility
-                    mb-8
-                    shadow-lg shadow-teal-500/30
-                    group-hover:scale-110
-                    duration-300
-                  "
-                >
-
+                <div className="relative z-10 w-16 h-16 rounded-2xl bg-gradient-to-r from-teal-600 to-blue-500 flex items-center justify-center text-2xl text-white mb-6 shadow-lg shadow-teal-500/30 group-hover:scale-110 duration-300">
                   {item.icon}
-
                 </div>
 
                 {/* TITLE */}
 
-                <h2 className="relative z-10 text-2xl font-extrabold text-slate-900 mb-4 group-hover:text-teal-600 duration-300">
-
-                  {item.title}
-
-                </h2>
+                <h2 className="relative z-10 text-xl sm:text-2xl font-extrabold mb-4 duration-300" style={{color:'var(--accent-start)'}}>{item.title}</h2>
 
                 {/* DESCRIPTION */}
 
-                <p className="relative z-10 text-slate-500 leading-relaxed text-lg mb-10">
-
-                  {item.desc}
-
-                </p>
+                <p className="relative z-10 text-slate-300 leading-relaxed text-base mb-8">{item.desc}</p>
 
                 {/* BUTTON */}
 
-                <button
-                  className="
-                    relative
-                    z-10
-                    flex items-center gap-3
-                    text-teal-600
-                    font-bold
-                    text-base
-                    group-hover:gap-5
-                    duration-300
-                  "
-                >
-
-                  Learn More
-
-                  <FaArrowRight />
-
-                </button>
+                <button className="relative z-10 flex items-center gap-3 text-white/90 font-semibold hover:text-white duration-200">Learn More <FaArrowRight /></button>
 
               </div>
 

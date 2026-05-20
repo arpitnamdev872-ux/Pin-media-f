@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import {
   FaTimes,
   FaUser,
@@ -10,6 +10,13 @@ import {
 
 function JoinUs({ showForm, setShowForm, formData, setFormData, handleSubmit }) {
 
+  const isControlled = typeof showForm !== 'undefined' && typeof setShowForm === 'function'
+  const [internalShow, setInternalShow] = useState(false)
+  const visible = isControlled ? showForm : internalShow
+
+  // internal form state when not controlled
+  const [internalForm, setInternalForm] = useState({ name: '', phone: '', service: '', message: '' })
+
   const [serviceOpen, setServiceOpen] = useState(false)
   const services = [
     "PR Marketing",
@@ -18,39 +25,60 @@ function JoinUs({ showForm, setShowForm, formData, setFormData, handleSubmit }) 
     "Website Development"
   ]
 
+  // Listen for global open event when used without controlled props (moved inside component)
+  useEffect(() => {
+    const handler = () => {
+      if (isControlled && typeof setShowForm === 'function') setShowForm(true)
+      else setInternalShow(true)
+    }
+    window.addEventListener('openJoinUs', handler)
+    return () => window.removeEventListener('openJoinUs', handler)
+  }, [isControlled, setShowForm])
   return (
     <>
       {
-        showForm && (
-          <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-md flex items-start md:items-center justify-center z-[100] px-4 py-6 transition-all duration-300">
-            <div className="w-full max-w-xl bg-white border border-slate-100 rounded-[40px] p-8 md:p-12 relative shadow-[0_30px_100px_rgba(0,0,0,0.15)] max-h-[95vh] overflow-y-auto">
+        visible && (
+            <div className="fixed inset-0 bg-navy-deep backdrop-blur-md flex items-start md:items-center justify-center z-[100] px-4 py-6 transition-all duration-300">
+              <div className="w-full max-w-xl glass-panel p-6 md:p-10 relative shadow-xl max-h-[95vh] overflow-y-auto">
               {/* DECORATIVE BLUR BACKGROUNDS */}
               <div className="absolute top-0 right-0 w-32 h-32 bg-teal-100/40 rounded-full -mr-10 -mt-10 blur-3xl"></div>
               <div className="absolute bottom-0 left-0 w-32 h-32 bg-blue-100/40 rounded-full -ml-10 -mb-10 blur-3xl"></div>
 
               {/* CLOSE BUTTON */}
               <button
-                onClick={() => setShowForm(false)}
-                className="absolute top-8 right-8 text-slate-400 hover:text-slate-600 transition-colors z-20 p-2 hover:bg-slate-100 rounded-full"
+                onClick={() => isControlled ? setShowForm(false) : setInternalShow(false)}
+                className="absolute top-6 right-6 text-slate-200 hover:text-white transition-colors z-20 p-2 bg-white/5 rounded-full"
               >
                 <FaTimes />
               </button>
 
               {/* TITLE */}
               <div className="relative z-10 mb-10">
-                <h2 className="text-4xl font-extrabold text-slate-900 mb-3 tracking-tight">
-                  Join
-                  <span className="text-teal-600">
-                    {" "}PIN MEDIA
-                  </span>
+                <h2 className="text-3xl font-extrabold text-white mb-3 tracking-tight">
+                  Join <span style={{ color: 'var(--accent-end)' }}>PIN MEDIA</span>
                 </h2>
-                <p className="text-slate-500 text-lg">
+                <p className="text-slate-300 text-lg">
                   Fill this form and connect directly on WhatsApp.
                 </p>
               </div>
 
               {/* FORM */}
-              <form onSubmit={handleSubmit} className="space-y-6 relative z-10">
+              <form onSubmit={(e) => {
+                e.preventDefault()
+                if (isControlled && typeof handleSubmit === 'function') {
+                  handleSubmit(e)
+                } else {
+                  // internal submit opens WhatsApp
+                  const data = internalForm
+                  if (!data.service) { alert('Please select a service.'); return }
+                  const whatsappMessage = `*PIN MEDIA CLIENT FORM*\n\n👤 Name: ${data.name}\n📞 Phone: ${data.phone}\n💼 Service: ${data.service}\n📝 Message: ${data.message}`
+                  const whatsappURL = `https://wa.me/919026619418?text=${encodeURIComponent(whatsappMessage)}`
+                  window.open(whatsappURL, '_blank')
+                  setInternalForm({ name: '', phone: '', service: '', message: '' })
+                  setServiceOpen(false)
+                  setInternalShow(false)
+                }
+              }} className="space-y-6 relative z-10">
                 {/* NAME */}
                 <div className="relative group">
                   <FaUser className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-teal-600 transition-colors" />
@@ -58,25 +86,12 @@ function JoinUs({ showForm, setShowForm, formData, setFormData, handleSubmit }) 
                     type="text"
                     placeholder="Your Name"
                     required
-                    value={formData.name}
-                    onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        name: e.target.value
-                      })
-                    }
-                    className="
-                      w-full
-                      bg-slate-50/50
-                      border border-slate-200
-                      rounded-2xl
-                      pl-14 pr-5 py-4
-                      text-slate-900
-                      outline-none
-                      focus:ring-4 focus:ring-teal-500/5 focus:border-teal-500
-                      focus:bg-white
-                      transition-all
-                    "
+                    value={isControlled ? formData.name : internalForm.name}
+                    onChange={(e) => {
+                      if (isControlled) setFormData({ ...formData, name: e.target.value })
+                      else setInternalForm({ ...internalForm, name: e.target.value })
+                    }}
+                    className="w-full bg-slate-800 border border-slate-700 rounded-2xl pl-14 pr-5 py-4 text-white outline-none focus:ring-4 focus:ring-teal-500/10 focus:border-teal-400 transition-all"
                   />
                 </div>
 
@@ -87,41 +102,29 @@ function JoinUs({ showForm, setShowForm, formData, setFormData, handleSubmit }) 
                     type="tel"
                     placeholder="Phone Number"
                     required
-                    value={formData.phone}
-                    onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        phone: e.target.value
-                      })
-                    }
-                    className="
-                      w-full
-                      bg-slate-50/50
-                      border border-slate-200
-                      rounded-2xl
-                      pl-14 pr-5 py-4
-                      text-slate-900
-                      outline-none
-                      focus:ring-4 focus:ring-teal-500/5 focus:border-teal-500
-                      focus:bg-white
-                      transition-all
-                    "
+                    value={isControlled ? formData.phone : internalForm.phone}
+                    onChange={(e) => {
+                      if (isControlled) setFormData({ ...formData, phone: e.target.value })
+                      else setInternalForm({ ...internalForm, phone: e.target.value })
+                    }}
+                    className="w-full bg-slate-800 border border-slate-700 rounded-2xl pl-14 pr-5 py-4 text-white outline-none focus:ring-4 focus:ring-teal-500/10 focus:border-teal-400 transition-all"
                   />
                 </div>
 
                 {/* SERVICE */}
                 <div className="relative group">
                   <FaBriefcase className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-teal-600 transition-colors z-10" />
-                  <button type="button" onClick={() => setServiceOpen(!serviceOpen)} className="relative w-full text-left bg-slate-50/50 border border-slate-200 rounded-2xl pl-14 pr-12 py-4 text-slate-900 font-medium outline-none focus:ring-4 focus:ring-teal-500/5 focus:border-teal-500 transition-all">
-                    {formData.service || "Select Service"}
+                  <button type="button" onClick={() => setServiceOpen(!serviceOpen)} className="relative w-full text-left bg-slate-800 border border-slate-700 rounded-2xl pl-14 pr-12 py-4 text-white font-medium outline-none focus:ring-4 focus:ring-teal-500/10 focus:border-teal-400 transition-all">
+                    {(isControlled ? formData.service : internalForm.service) || "Select Service"}
                     <span className={`absolute right-5 top-1/2 -translate-y-1/2 text-slate-400 text-lg transition-transform duration-300 ${serviceOpen ? 'rotate-180' : ''}`}>▾</span>
                   </button>
 
                   {serviceOpen && (
-                    <ul className="absolute left-0 right-0 mt-2 bg-white border border-slate-100 rounded-2xl max-h-56 overflow-y-auto z-[110] shadow-2xl py-3 animate-in fade-in slide-in-from-top-2">
+                    <ul className="absolute left-0 right-0 mt-2 bg-slate-800 border border-slate-700 rounded-2xl max-h-56 overflow-y-auto z-[110] shadow-lg py-3 animate-in fade-in slide-in-from-top-2">
                       {services.map((s) => (
-                        <li key={s} className="px-8 py-3 hover:bg-teal-50 hover:text-teal-600 transition-colors text-slate-700 cursor-pointer font-medium" onClick={() => {
-                          setFormData({ ...formData, service: s })
+                        <li key={s} className="px-8 py-3 hover:bg-white/5 hover:text-teal-400 transition-colors text-white cursor-pointer font-medium" onClick={() => {
+                          if (isControlled) setFormData({ ...formData, service: s })
+                          else setInternalForm({ ...internalForm, service: s })
                           setServiceOpen(false)
                         }}>{s}</li>
                       ))}
@@ -136,25 +139,12 @@ function JoinUs({ showForm, setShowForm, formData, setFormData, handleSubmit }) 
                     rows="4"
                     placeholder="Your Message"
                     required
-                    value={formData.message}
-                    onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        message: e.target.value
-                      })
-                    }
-                    className="
-                      w-full
-                      bg-slate-50/50
-                      border border-slate-200
-                      rounded-2xl
-                      pl-14 pr-5 py-4
-                      text-slate-900
-                      outline-none
-                      focus:ring-4 focus:ring-teal-500/5 focus:border-teal-500
-                      focus:bg-white
-                      transition-all
-                    "
+                    value={isControlled ? formData.message : internalForm.message}
+                    onChange={(e) => {
+                      if (isControlled) setFormData({ ...formData, message: e.target.value })
+                      else setInternalForm({ ...internalForm, message: e.target.value })
+                    }}
+                    className="w-full bg-slate-800 border border-slate-700 rounded-2xl pl-14 pr-5 py-4 text-white outline-none focus:ring-4 focus:ring-teal-500/10 focus:border-teal-400 transition-all"
                   />
                 </div>
 
@@ -172,7 +162,7 @@ function JoinUs({ showForm, setShowForm, formData, setFormData, handleSubmit }) 
                     font-bold
                     text-lg
                     hover:scale-[1.01]
-                    hover:shadow-[0_20px_40px_rgba(13,148,136,0.3)]
+                    hover:shadow-lg
                     active:scale-[0.98]
                     transition-all
                     duration-300

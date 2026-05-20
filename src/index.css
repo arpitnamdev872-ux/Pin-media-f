@@ -1,1 +1,128 @@
 @import "tailwindcss";
+
+/* Brand palette (teal/blue premium) */
+:root{
+  --bg-dark:#060312;
+  --navy-deep:rgba(6,3,18,0.85);
+  --royal-blue: rgba(37,99,235,0.22);
+  --accent-start:#2563eb; /* blue */
+  --accent-end:#ff4d9e; /* pink */
+
+  /* Brand palette (premium teal/blue) */
+  --brand-1:#2563eb; /* blue-600 */
+  --brand-2:#ff4d9e; /* pink accent */
+  --brand-3:#7c3aed; /* violet (accent) */
+
+  --brand-grad: linear-gradient(90deg, var(--brand-1), var(--brand-2));
+  --brand-glow: 0 20px 50px rgba(13,148,136,0.28);
+  --brand-glow-soft: 0 30px 70px -15px rgba(13,148,136,0.25);
+
+  --accent-gradient: linear-gradient(90deg, var(--accent-start), var(--accent-end));
+  --nav-height: 64px;
+}
+
+
+html,body,#root{
+	height:100%;
+}
+
+body{
+  background: radial-gradient(1200px 600px at 10% 10%, rgba(37,99,235,0.12), transparent), radial-gradient(800px 400px at 90% 90%, rgba(255,77,158,0.06), transparent), var(--bg-dark);
+  color: #e6e6f0;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+
+.bg-navy-deep{ background-color: var(--navy-deep); }
+.border-royal-blue{ border-color: var(--royal-blue); }
+
+.glass-card{ background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border: 1px solid rgba(255,255,255,0.04); }
+
+.accent-gradient{ background: linear-gradient(90deg, var(--accent-start), var(--accent-end)); }
+
+/* Theme components */
+.navbar-glass{
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  backdrop-filter: blur(8px);
+}
+
+.navbar-dark{
+  background: rgba(6,3,18,0.6);
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  color: var(--e6e6f0, #e6e6f0);
+}
+
+/* Premium navbar gradient */
+.navbar-gradient{
+  background: linear-gradient(90deg, rgba(37,99,235,0.10), rgba(255,77,158,0.05));
+  box-shadow: 0 6px 18px rgba(0,0,0,0.42);
+  border-bottom: 0.5px solid rgba(255,255,255,0.03);
+  backdrop-filter: blur(6px) saturate(120%);
+  transition: background-color 200ms ease, box-shadow 200ms ease;
+  min-height: var(--nav-height);
+  display: flex;
+  align-items: center;
+}
+
+.nav-link{ color: rgba(255,255,255,0.92); letter-spacing:0.01em; }
+.nav-link:hover{ color: var(--accent-end); opacity:0.98; }
+.nav-link-active{ background: linear-gradient(90deg,var(--accent-start),var(--accent-end)); color: #fff !important; box-shadow: 0 10px 30px rgba(124,58,237,0.12); }
+
+.nav-item{ border-radius:8px; }
+
+/* Add top spacing so fixed navbar doesn't cover content */
+.site-root{ padding-top: var(--nav-height); }
+
+/* Reduce vertical spacing between sections site-wide (exclude large hero sections) */
+.site-root section:not([class*="min-h"]) {
+  padding-top: 2rem !important; /* 32px */
+  padding-bottom: 2rem !important; /* 32px */
+}
+
+/* Slightly reduce default gaps inside common containers */
+.site-root .max-w-6xl, .site-root .max-w-7xl { padding-top: 0.25rem; padding-bottom: 0.25rem; }
+
+
+.nav-link{
+  color: #dfe6f3;
+}
+
+.nav-link:hover{ color: var(--accent-start); }
+
+.nav-link-active{
+  background: var(--accent-gradient);
+  color: white !important;
+  box-shadow: 0 10px 30px rgba(124,58,237,0.18);
+}
+
+.btn-accent{
+  background: var(--accent-gradient);
+  color: #fff;
+  border-radius: 9999px;
+  padding: 0.45rem 0.9rem;
+  display: inline-flex;
+  gap: .4rem;
+  align-items: center;
+  font-size: 0.95rem;
+  text-decoration: none;
+}
+.btn-accent:hover{ transform: translateY(-2px); filter: brightness(1.05); }
+
+/* Card / glass utilities */
+.glass-panel{ background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border:1px solid rgba(255,255,255,0.04); border-radius:12px; }
+
+/* Responsive helpers for non-tailwind sections */
+@media (max-width: 1024px){
+  .hide-lg{ display:none !important; }
+}
+
+@media (max-width: 768px){
+  .hide-md{ display:none !important; }
+  .stack-mobile{ display:flex; flex-direction:column; gap:1rem; }
+  .text-center-mobile{ text-align:center; }
+  .container-padding{ padding-left:1rem; padding-right:1rem; }
+}
+
+@media (max-width: 420px){
+  .logo-sm{ height:40px; width:40px; }
+}

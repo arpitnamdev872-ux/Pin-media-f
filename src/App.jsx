@@ -8,12 +8,14 @@ function App() {
 
   return (
     <BrowserRouter>
-      <Routes>
+      <div className="site-root">
+        <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/services" element={<ServicesPage />} />
         <Route path="/contact" element={<ContactPage />} />
-      </Routes>
+        </Routes>
+      </div>
     </BrowserRouter>
   )
 

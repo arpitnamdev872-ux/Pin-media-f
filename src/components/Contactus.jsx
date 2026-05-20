@@ -29,7 +29,7 @@ function Contact() {
 
   return (
 
-    <section className="w-full bg-white text-slate-900 pt-24 pb-16 border-t border-slate-100">
+    <section className="w-full text-white pt-24 pb-16 border-t border-slate-800 bg-transparent">
 
       <div className="w-full px-6 md:px-20 text-center">
 
@@ -37,17 +37,12 @@ function Contact() {
           CONTACT US
         </h4>
 
-        <h1 className="text-5xl md:text-6xl font-extrabold mb-8 tracking-tight">
-
+        <h1 className="text-4xl md:text-6xl font-extrabold leading-tight mb-8 tracking-tighter">
           Let's Work Together
-
         </h1>
 
-        <p className="text-slate-600 text-lg mb-8 leading-8">
-
-          Connect with PIN MEDIA through WhatsApp
-          or Instagram and grow your brand digitally.
-
+        <p className="text-slate-300 text-lg mb-8 leading-8">
+          Connect with PIN MEDIA through WhatsApp or Instagram and grow your brand digitally.
         </p>
 
         <div className="flex flex-wrap justify-center gap-6 animate-in fade-in slide-in-from-bottom-10 duration-700 delay-200">
