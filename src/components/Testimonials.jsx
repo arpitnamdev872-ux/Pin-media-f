@@ -1,10 +1,10 @@
 
 
 const items = [
-  {img: 'https://images.unsplash.com/photo-1544723795-3fb6469f5b39?q=80&w=400&auto=format&fit=crop', name: 'Arik', title: 'Co-Founder, boat', text: 'PIN MEDIA helped us grow 4x on social media within 3 months.'},
+  {img: 'https://images.unsplash.com/photo-1544723795-3fb6469f5b39?q=80&w=400&auto=format&fit=crop', name: 'Arik', title: 'Co-Founder, boAt', text: 'PIN MEDIA helped us grow 4x on social media within 3 months.'},
   {img: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=400&auto=format&fit=crop', name: 'Neha B', title: 'Marketing Head, Nykaa', text: 'Their PR campaigns gave our brand massive visibility.'},
-  {img: 'https://images.unsplash.com/photo-1545996124-1b7d7b6b5b2c?q=80&w=400&auto=format&fit=crop', name: 'Growth Lead', title: 'MPL', text: 'Professional, creative and result-driven.'},
-  {img: 'https://images.unsplash.com/photo-1545996124-1b7d7b6b5b2c?q=80&w=400&auto=format&fit=crop', name: 'CMO', title: 'CRED', text: 'Excellent communication and outstanding results.'},
+  {img: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=400&auto=format&fit=crop', name: 'Growth Lead', title: 'MPL', text: 'Professional, creative and result-driven.'},
+  {img: 'https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?q=80&w=400&auto=format&fit=crop', name: 'CMO', title: 'CRED', text: 'Excellent communication and outstanding results.'},
 ]
 
 export default function Testimonials(){

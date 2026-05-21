@@ -54,11 +54,9 @@ function Navbar() {
         <div className="w-full px-4 md:px-10 py-2 flex items-center justify-between container-padding max-w-[1400px] mx-auto">
           {/* LOGO */}
           <a href="/" className="flex items-center gap-3">
-            <img
-              src={logo}
-              alt="Pin Media"
-              className="h-12 w-12 object-contain rounded-full hover:scale-105 duration-300"
-            />
+            <div className="h-16 w-16 rounded-full overflow-hidden flex-shrink-0 hover:scale-105 duration-300 ring-2 ring-white/20 flex items-center justify-center bg-white p-2 shadow-inner">
+              <img src={logo} alt="Pin Media" className="w-full h-full object-contain" />
+            </div>
 
             <div className="hidden sm:flex flex-col text-white">
               <span className="font-extrabold text-xl tracking-tight">

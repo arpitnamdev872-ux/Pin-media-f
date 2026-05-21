@@ -3,7 +3,7 @@ import heroImg from "../assets/images/home-hero.jpg";
 
 function Hero() {
   return (
-    <section className="w-full min-h-[90vh] text-white flex items-center pt-32 pb-12 relative overflow-hidden">
+    <section className="w-full min-h-[90vh] text-white flex items-center pt-16 pb-12 relative overflow-hidden">
 
       {/* Abstract Background Decoration */}
       <div className="absolute top-0 -left-20 w-[500px] h-[500px] rounded-full blur-[120px] opacity-40" style={{ background: 'radial-gradient(circle at center, rgba(124,58,237,0.18), transparent)' }}></div>
